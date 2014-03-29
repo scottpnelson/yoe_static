@@ -23,16 +23,30 @@ class EmailController extends BaseController {
 		}
 
 		// Store input in DB
-		if( ! $this->enquiry->store()) {
+		if( ! $id = $this->enquiry->store()) {
 			return Redirect::to('/#contact-us')
 				->withErrors(['message' => 'An error occurred while sending your message. Please try again later.'])
 				->withInput(Input::except('captcha'));
 		}
 
 		// Email the enquiries team
+		$data = [
+			'from_name'   => Input::get('name'),
+			'from_email'  => Input::get('email'),
+			'subject'     => $this->transformSubject(),
+			'created_at'  => $this->enquiry->getCreatedAt($id),
+			'body'        => Input::get('message'),
+		];
 
+		$this->send('email.enquiry', $data);
 
-		// Email the sender with a confirmation
+		// todo: Email the sender with a confirmation
+
+		// todo: validate that the emails were actually sent
+
+		// todo: email admin on fatal error
+
+		// todo: implement logging
 
 
 		// Redirect with success message
@@ -40,16 +54,30 @@ class EmailController extends BaseController {
 			->with('success', 'Thank you! Your enquiry has been sent to our team.');
 	}
 
-	private function send($data, $view_name)
+	private function send($view_name, array $data)
 	{
 		return Mail::send($view_name, $data, function($message) use ($data)
 		{
-			$to_email = $data['to_email'];
-			$to_name  = $data['to_name'];
-			$subject  = $data['subject'];
+			$from_name   = $data['from_name'];
+			$from_email  = $data['from_email'];
+			$subject     = $data['subject'];
+//			$created_at  = $data['created_at'];
+//			$body     = $data['message'];
+
+			$to_email = 'scottnelson.au@gmail.com';
+			$to_name  = 'Scott Nelson';
+
+			$message->from($from_email, $from_name);
 
 			$message->to($to_email, $to_name)->subject($subject);
 		});
 	}
+
+	private function transformSubject()
+	{
+		// 'YOE enquiry from John Smith RE: General Enquiry
+		return 'YOE enquiry from ' . Input::get('name') . ' RE: ' . Input::get('subject');
+	}
+
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 class Enquiry extends Eloquent {
 
 	protected $table = 'enquiries';
@@ -26,12 +28,30 @@ class Enquiry extends Eloquent {
 
 	public function store()
 	{
-		$this->from_name  = Input::get('name');
-		$this->from_email = Input::get('email');
-		$this->subject    = Input::get('subject');
-		$this->message    = Input::get('message');
+		try {
+			$this->from_name  = Input::get('name');
+			$this->from_email = Input::get('email');
+			$this->subject    = Input::get('subject');
+			$this->message    = Input::get('message');
 
-		return $this->save();
+			$this->save();
+
+			return $this->id;
+		}
+		catch(Illuminate\Database\QueryException $e)
+		{
+			return false;
+		}
+
+	}
+
+	public function getCreatedAt($id)
+	{
+		// Get the Carbon object from the table
+		$created_at = $this->where('id', $id)->firstOrFail(['created_at'])->created_at;
+
+		// Return the date in the form of "Thu, Dec 25, 1975 2:15 PM"
+		return $created_at->toDayDateTimeString();
 	}
 
 }
