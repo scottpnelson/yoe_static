@@ -20,6 +20,21 @@ class EmailController extends BaseController {
 			return Redirect::to('/')->withErrors($validator)->withInput(Input::except('captcha'));
 		}
 
+
+
+
+
+
+
+
+
+
+
+
+		$success = 'Thank you! Your enquiry has been sent to our team.';
+
+		return Redirect::to('/')->with('success', $success);
+
 		dd('Validation passed!');
 
 		// todo: send the email

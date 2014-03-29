@@ -30,7 +30,7 @@
 
 			<br><br><br>
 
-			<p class="h2">Website coming soon!</p>
+			<p class="h1">Website coming soon!</p>
 
 			<br><br><br>
 
@@ -43,16 +43,30 @@
 	<div class="jumbotron jumbotron-sm">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-12 col-lg-12">
+				<div class="col-sm-12 col-md-12">
 					<h1 class="h1">
-						Contact us <small>Feel free to send us a message in the meantime :)</small></h1>
+						<small>Feel free to send us a message in the meantime :)</small>
+					</h1>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container">
+		<div class="row" style="padding-bottom:10px;">
+			<div class="col-sm-12 col-md-12">
+				<h1 class="h1">
+					Contact us
+				</h1>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-8">
+
+				@if(Session::get('success'))
+					<div class="messages-container">
+						<div class="success alert alert-success">{{ Session::get('success') }}</div>
+					</div>
+				@endif
 
 				@if($errors->has())
 					<div class="errors-container">
