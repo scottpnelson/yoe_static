@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,5 +14,14 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	$captchaBuilder = new \YOE\Captcha\Builder;
+	$captcha = $captchaBuilder->makeCaptcha();
+
+	//$debug_captcha_value = $captchaBuilder->getCaptchaValue();
+
+	return View::make('home.index')->with(compact('captcha', 'debug_captcha_value'));
 });
+
+Route::post('/', 'EmailController@processEnquiry');
+
+Route::get('/captcha', 'CaptchaController@resetAndGetCaptcha');
