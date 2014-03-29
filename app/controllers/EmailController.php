@@ -64,8 +64,8 @@ class EmailController extends BaseController {
 //			$created_at  = $data['created_at'];
 //			$body     = $data['message'];
 
-			$to_email = 'scottnelson.au@gmail.com';
-			$to_name  = 'Scott Nelson';
+			$to_email = 'enquiries@yoe247.com.au';
+			$to_name  = 'YOE Enquiries';
 
 			$message->from($from_email, $from_name);
 
