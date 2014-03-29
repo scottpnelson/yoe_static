@@ -17,35 +17,27 @@ class EmailController extends BaseController {
 		$validator = $this->enquiry->validate($input);
 
 		if( $validator->fails()) {
-			return Redirect::to('/')->withErrors($validator)->withInput(Input::except('captcha'));
+			return Redirect::to('/#contact-us')
+				->withErrors($validator)
+				->withInput(Input::except('captcha'));
 		}
 
+		// Store input in DB
+		if( ! $this->enquiry->store()) {
+			return Redirect::to('/#contact-us')
+				->withErrors(['message' => 'An error occurred while sending your message. Please try again later.'])
+				->withInput(Input::except('captcha'));
+		}
+
+		// Email the enquiries team
 
 
+		// Email the sender with a confirmation
 
 
-
-
-
-
-
-
-
-		$success = 'Thank you! Your enquiry has been sent to our team.';
-
-		return Redirect::to('/')->with('success', $success);
-
-		dd('Validation passed!');
-
-		// todo: send the email
-
-		$data = $input;
-		$view = '';
-
-		// Send email
-
-		// Redirect with flash message
-
+		// Redirect with success message
+		return Redirect::to('/#contact-us')
+			->with('success', 'Thank you! Your enquiry has been sent to our team.');
 	}
 
 	private function send($data, $view_name)
@@ -58,11 +50,6 @@ class EmailController extends BaseController {
 
 			$message->to($to_email, $to_name)->subject($subject);
 		});
-	}
-
-	private function store()
-	{
-
 	}
 
 }

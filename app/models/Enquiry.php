@@ -24,4 +24,14 @@ class Enquiry extends Eloquent {
 		return Validator::make($input, $this->rules);
 	}
 
+	public function store()
+	{
+		$this->from_name  = Input::get('name');
+		$this->from_email = Input::get('email');
+		$this->subject    = Input::get('subject');
+		$this->message    = Input::get('message');
+
+		return $this->save();
+	}
+
 }

@@ -51,7 +51,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<div class="container" id="contact-us">
 		<div class="row" style="padding-bottom:10px;">
 			<div class="col-sm-12 col-md-12">
 				<h1 class="h1">
@@ -78,7 +78,7 @@
 
 
 				<div class="well well-sm">
-					{{ Form::open(['url' => '/']) }}
+					{{ Form::open(['url' => '/#contact-us']) }}
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -97,11 +97,11 @@
 							<div class="form-group">
 								{{ Form::label('subject') }}
 								{{ Form::select('subject', [
-									'general'     => 'General Enquiry',
-									'membership'  => 'Membership Enquiry',
-									'accounts'    => 'Account Enquiry',
-									'feedback'    => 'Feedback',
-									'support'     => 'Product Support',
+									'General Enquiry'     => 'General Enquiry',
+									'Membership Enquiry'  => 'Membership Enquiry',
+									'Account Enquiry'    => 'Account Enquiry',
+									'Feedback'    => 'Feedback',
+									'Product Support'     => 'Product Support',
 								], Input::old('subject'), ['class' => 'form-control']) }}
 							</div>
 						</div>
