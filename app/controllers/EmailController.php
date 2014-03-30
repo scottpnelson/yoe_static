@@ -22,22 +22,25 @@ class EmailController extends BaseController {
 				->withInput(Input::except('captcha'));
 		}
 
+		// Create the data array and escape the input
+		$data = [
+			'from_name'   => e(Input::get('name')),
+			'from_email'  => e(Input::get('email')),
+			'subject'     => e($this->transformSubject()),
+			'body'        => nl2br(e(Input::get('message'))),
+		];
+
 		// Store input in DB
-		if( ! $id = $this->enquiry->store()) {
+		if( ! $id = $this->enquiry->store($data)) {
 			return Redirect::to('/#contact-us')
 				->withErrors(['message' => 'An error occurred while sending your message. Please try again later.'])
 				->withInput(Input::except('captcha'));
 		}
 
-		// Email the enquiries team
-		$data = [
-			'from_name'   => Input::get('name'),
-			'from_email'  => Input::get('email'),
-			'subject'     => $this->transformSubject(),
-			'created_at'  => $this->enquiry->getCreatedAt($id),
-			'body'        => Input::get('message'),
-		];
+		// Push the created_at value onto the array
+		$data['created_at'] = $this->enquiry->getCreatedAt($id);
 
+		// Email the enquiries team
 		$this->send('email.enquiry', $data);
 
 		// todo: Email the sender with a confirmation
@@ -56,8 +59,8 @@ class EmailController extends BaseController {
 
 	private function send($view_name, array $data)
 	{
-		return Mail::send($view_name, $data, function($message) use ($data)
-		{
+
+		return Mail::queue($view_name, $data, function($message) use ($data) {
 			$from_name   = $data['from_name'];
 			$from_email  = $data['from_email'];
 			$subject     = $data['subject'];

@@ -22,23 +22,23 @@
 						<table border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tr>
 								<td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
-									<b>{{ $subject }}</b>
+									<b>{{{ HTML::entities($subject) }}}</b>
 								</td>
 							</tr>
 							<tr>
 								<td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
 									A new message has been submitted via www.yoe247.com.au <br/><br/>
 
-									<b>From:</b> {{$from_name}} <br/><br/>
+									<b>From:</b> {{{ $from_name }}} <br/><br/>
 
-									<b>Email:</b> {{$from_email}} <br/><br/>
+									<b>Email:</b> {{{ $from_email }}} <br/><br/>
 
-									<b>Subject:</b> {{$subject}} <br/><br/>
+									<b>Subject:</b> {{{ $subject }}} <br/><br/>
 
-									<b>Sent at:</b> {{$created_at}} <br/><br/>
+									<b>Sent at:</b> {{{ $created_at }}} <br/><br/>
 
 									<b>Message:</b> <br/>
-									{{ nl2br($body) }}
+									{{ $body }}
 								</td>
 							</tr>
 						</table>
