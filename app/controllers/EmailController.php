@@ -64,12 +64,13 @@ class EmailController extends BaseController {
 //			$created_at  = $data['created_at'];
 //			$body     = $data['message'];
 
-			$to_email = 'enquiries@yoe247.com.au';
+			$to_email = $_ENV['MAIL.TO_EMAIL'];
 			$to_name  = 'YOE Enquiries';
 
-			$message->from($from_email, $from_name);
-
-			$message->to($to_email, $to_name)->subject($subject);
+			$message->from($from_email, $from_name)
+				->replyTo($from_email, $from_name)
+				->to($to_email, $to_name)
+				->subject($subject);
 		});
 	}
 
