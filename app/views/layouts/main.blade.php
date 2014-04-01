@@ -163,13 +163,6 @@
 </div>
 </div>
 
-
-
-
-
-
-
-
 	@include('assets.scripts')
 
 </body>
